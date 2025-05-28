@@ -156,6 +156,9 @@ class RegressionNorm(nn.Module):
         s_latent_norm = F.normalize(s_latent, dim=-1)
         p_latent_norm = F.normalize(p_latent, dim=-1)
 
+        # s_latent_norm = s_latent
+        # p_latent_norm = p_latent
+
         # s_out = self.scientist_decoder(s_latent_norm)
         # p_out = self.paper_decoder(p_latent_norm)
 
@@ -190,10 +193,10 @@ def get_dataset(df: pd.DataFrame) -> torch.utils.data.Dataset:
 
 train_dataset = get_dataset(train_df)
 valid_dataset = get_dataset(valid_df)
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=2**8, shuffle=True)
-valid_loader = torch.utils.data.DataLoader(valid_dataset, batch_size=2**8, shuffle=False)
+train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=2**12, shuffle=True)
+valid_loader = torch.utils.data.DataLoader(valid_dataset, batch_size=2**12, shuffle=False)
 
-model = RegressionNorm(10_000, 1_000, 512, 32, dropout_rate=0.1, epsilon=0.0).to(device)
+model = RegressionNorm(10_000, 1_000, 512, 150, dropout_rate=0.1, epsilon=0.0).to(device)
 nn.init.zeros_(model.scientist_bias.weight)
 nn.init.zeros_(model.paper_bias.weight)
 
@@ -201,7 +204,7 @@ optim = torch.optim.Adam(model.parameters(), lr=1e-3,weight_decay=1e-4)
 
 s_reconstruction_weight = 0.0
 p_reconstruction_weight = 0.0
-contrastive_weight = 0.0
+contrastive_weight = 0.1
 
 NUM_EPOCHS = 30
 scheduler = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(optim, T_0=10, T_mult=2)
@@ -218,7 +221,11 @@ def info_nce_loss(s_latent, p_latent, ratings, threshold=4.0, temperature=0.07):
     labels = torch.arange(len(s_pos), device=logits.device)
     return F.cross_entropy(logits, labels)
 
+best_val_rmse = float('inf')
+best_epoch = -1
+best_model_state = None
 
+val_rmse_per_epoch = []
 for epoch in range(NUM_EPOCHS):
     # Train model for an epoch
     total_loss = 0.0
@@ -240,26 +247,9 @@ for epoch in range(NUM_EPOCHS):
         # s_recon_loss = F.mse_loss(s_emb, s_out)
         # p_recon_loss = F.mse_loss(p_emb, p_out)
 
-
-        
         # Contrastive loss for latent vectors based on rating
-        # contrastive_loss = 0.0
-        # margin = 1.0
-
-        # with torch.no_grad():
-        #     pos_mask = ratings >= 4
-        #     neg_mask = ratings <= 2
-
-        # if pos_mask.any():
-        #     pos_dist = F.mse_loss(s_latent[pos_mask], p_latent[pos_mask])
-        #     contrastive_loss += pos_dist
-
-        # if neg_mask.any():
-        #     neg_dist = F.pairwise_distance(s_latent[neg_mask], p_latent[neg_mask])
-        #     contrastive_loss += F.relu(margin - neg_dist).mean()
-
-        # contrastive_loss = info_nce_loss(s_latent, p_latent, ratings) + info_nce_loss(p_latent, s_latent, ratings)
-        contrastive_loss = torch.tensor(0.0, device=sid.device)
+        contrastive_loss = info_nce_loss(s_latent, p_latent, ratings) + info_nce_loss(p_latent, s_latent, ratings)
+        # contrastive_loss = torch.tensor(0.0, device=sid.device)
         
         loss = rating_loss +  contrastive_weight * contrastive_loss
 
@@ -267,7 +257,6 @@ for epoch in range(NUM_EPOCHS):
         optim.zero_grad()
         loss.backward()
         optim.step()
-        scheduler.step()
 
         # Keep track of running loss
         total_data += len(sid)
@@ -277,8 +266,8 @@ for epoch in range(NUM_EPOCHS):
         # avg_p_recon_loss += p_recon_loss.item() / len(train_dataset) * len(sid)
         avg_contrastive_loss += contrastive_loss.item() / len(train_dataset) * len(sid)
 
+    scheduler.step()
     print(f"[Epoch {epoch+1}] rating={avg_rating_loss:.4f}, contrastive={avg_contrastive_loss:.4f}, s_recon={avg_s_recon_loss:.4f}, p_recon={avg_p_recon_loss:.4f}")
-    # print(f"[Epoch {epoch+1}] rating={rating_loss.item():.4f}, s_recon={s_recon_loss.item():.4f}, p_recon={p_recon_loss.item():.4f}")
 
     # Evaluate model on validation data
     total_val_mse = 0.0
@@ -292,7 +281,7 @@ for epoch in range(NUM_EPOCHS):
 
         # Clamp predictions in [1,5], since all ground-truth ratings are
         pred = model(sid, pid)
-        pred= pred[0].clamp(1, 5)
+        pred = pred[0].clamp(1, 5)
         
         mse = F.mse_loss(pred, ratings)
 
@@ -300,10 +289,31 @@ for epoch in range(NUM_EPOCHS):
         total_val_data += len(sid)
         total_val_mse += len(sid) * mse.item()
 
-    print(f"[Epoch {epoch+1}/{NUM_EPOCHS}] Train loss={total_loss / total_data:.3f}, Valid RMSE={(total_val_mse / total_val_data) ** 0.5:.3f}")
+    val_rmse = (total_val_mse / total_val_data) ** 0.5
+    val_rmse_per_epoch.append(val_rmse)
+    print(f"[Epoch {epoch+1}/{NUM_EPOCHS}] Train loss={total_loss / total_data:.3f}, Valid RMSE={val_rmse:.3f}")
 
+    # Save best model
+    if val_rmse < best_val_rmse:
+        best_val_rmse = val_rmse
+        best_epoch = epoch + 1
+        best_model_state = {k: v.cpu().clone() for k, v in model.state_dict().items()}
 
-pred_fn = lambda sids, pids: model(torch.from_numpy(sids).to(device), torch.from_numpy(pids).to(device))[0].clamp(1, 5).cpu().numpy()
+# Restore best model state
+if best_model_state is not None:
+    model.load_state_dict(best_model_state)
+
+def pred_fn(sids, pids, batch_size=4096):
+    preds = []
+    sids = torch.from_numpy(sids)
+    pids = torch.from_numpy(pids)
+    for i in range(0, len(sids), batch_size):
+        sid_batch = sids[i:i+batch_size].to(device)
+        pid_batch = pids[i:i+batch_size].to(device)
+        with torch.no_grad():
+            pred_batch = model(sid_batch, pid_batch)[0].clamp(1, 5).cpu().numpy()
+        preds.append(pred_batch)
+    return np.concatenate(preds)
 
 # Evaluate on validation data
 with torch.no_grad():
@@ -312,7 +322,7 @@ with torch.no_grad():
 print(f"Validation RMSE: {val_score:.3f}")
 with torch.no_grad():
     # make_submission(pred_fn, f"emb4_epoch{NUM_EPOCHS}.csv")
-    make_submission(pred_fn, f"emb32_mlp32-32_snorm_epoch{NUM_EPOCHS}.csv")
+    make_submission(pred_fn, f"contrast_epochs{NUM_EPOCHS}.csv")
 
 ## Outlook
 

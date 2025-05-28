@@ -17,7 +17,7 @@ from tqdm import tqdm, trange
 DATA_DIR = "data"
 
 
-def read_data_df() -> Tuple[pd.DataFrame, pd.DataFrame]:
+def read_data_df(split=True) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Reads in data and splits it into training and validation sets with a 75/25 split."""
     
     df = pd.read_csv(os.path.join(DATA_DIR, "train_ratings.csv"))
@@ -29,6 +29,8 @@ def read_data_df() -> Tuple[pd.DataFrame, pd.DataFrame]:
     df["pid"] = df["pid"].astype(int)
     
     # Split into train and validation dataset
+    if not split:
+        return df, None
     train_df, valid_df = train_test_split(df, test_size=0.1)
     return train_df, valid_df
 
