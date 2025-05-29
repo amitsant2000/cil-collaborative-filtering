@@ -5,9 +5,15 @@ import torch.nn as nn
 import torch.nn.functional as F
 from tqdm import tqdm
 from utils.data_utils import read_data_df, read_data_matrix, impute_values, get_wishlist_matrix, get_wishlist_dict, evaluate, make_submission
+import argparse
 
+parser = argparse.ArgumentParser(description="two tower")
+parser.add_argument('--seed', type=int, help='seed')
+parser.add_argument('--nce', type=bool, help='use nce or not')
 
-SEED = 42
+args = parser.parse_args()
+
+SEED = args.seed
 torch.manual_seed(SEED)
 np.random.seed(SEED)
 
@@ -248,7 +254,10 @@ for epoch in range(NUM_EPOCHS):
         # p_recon_loss = F.mse_loss(p_emb, p_out)
 
         # Contrastive loss for latent vectors based on rating
-        contrastive_loss = info_nce_loss(s_latent, p_latent, ratings) + info_nce_loss(p_latent, s_latent, ratings)
+        if(args.nce):
+            contrastive_loss = info_nce_loss(s_latent, p_latent, ratings) + info_nce_loss(p_latent, s_latent, ratings)
+        else:
+            contrastive_loss = 0
         # contrastive_loss = torch.tensor(0.0, device=sid.device)
         
         loss = rating_loss +  contrastive_weight * contrastive_loss
@@ -322,7 +331,7 @@ with torch.no_grad():
 print(f"Validation RMSE: {val_score:.3f}")
 with torch.no_grad():
     # make_submission(pred_fn, f"emb4_epoch{NUM_EPOCHS}.csv")
-    make_submission(pred_fn, f"contrast_epochs{NUM_EPOCHS}.csv")
+    make_submission(pred_fn, f"contrast_epochs{NUM_EPOCHS}_seed{SEED}_nce{args.nce}.csv")
 
 ## Outlook
 
