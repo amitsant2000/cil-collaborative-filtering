@@ -172,6 +172,13 @@ def info_nce_loss(s_latent, p_latent, ratings, threshold=4.0, temperature=0.07):
     labels = torch.arange(len(s_pos), device=logits.device)
     return F.cross_entropy(logits, labels)
 
+def multithreshold_infonce_loss(latents1, latents2, ratings, thresholds=[4, 5], temperatures=[0.07, 0.07]):
+    losses = []
+    for th, temp in zip(thresholds, temperatures):
+        # print(losses)
+        losses.append(info_nce_loss(latents1, latents2, ratings, threshold=th, temperature=temp))
+    return torch.stack(losses).mean()
+
 best_val_rmse = float('inf')
 best_epoch = -1
 best_model_state = None
@@ -196,8 +203,10 @@ for epoch in range(NUM_EPOCHS):
         
 
         # Contrastive loss for latent vectors based on rating
-        if(args.nce != 0):
+        if(args.nce == 1):
             contrastive_loss = info_nce_loss(s_latent, p_latent, ratings) + info_nce_loss(p_latent, s_latent, ratings)
+        elif(args.nce == 2):
+            contrastive_loss = multithreshold_infonce_loss(s_latent, p_latent, ratings) + multithreshold_infonce_loss(p_latent, s_latent, ratings)
         else:
             contrastive_loss = 0
         # contrastive_loss = torch.tensor(0.0, device=sid.device)
@@ -270,8 +279,7 @@ with torch.no_grad():
 
 print(f"Validation RMSE: {val_score:.3f}")
 with torch.no_grad():
-    # make_submission(pred_fn, f"emb4_epoch{NUM_EPOCHS}.csv")
-    make_submission(pred_fn, f"contrast_epochs{NUM_EPOCHS}_seed{SEED}_nce{args.nce}.csv")
+    make_submission(pred_fn, f"contrast_epochs{NUM_EPOCHS}_seed{SEED}_nce_type{args.nce}.csv")
 
 
 
