@@ -5,9 +5,10 @@ import torch.nn as nn
 import torch.nn.functional as F
 from tqdm import tqdm
 from utils.data_utils import read_data_df, read_data_matrix, impute_values, get_wishlist_matrix, get_wishlist_dict, evaluate, make_submission
+from utils.loss_functions import info_nce_loss, neg_info_nce_loss, first_principle_component
 
 
-SEED = 42
+SEED = 1337
 torch.manual_seed(SEED)
 np.random.seed(SEED)
 
@@ -86,25 +87,16 @@ class RegressionNorm(nn.Module):
             nn.LeakyReLU(1e-3),
             nn.LayerNorm(dim),
             nn.Dropout(dropout_rate),
-            # nn.Linear(dim, dim),
-            # nn.LeakyReLU(1e-3),
-            # nn.LayerNorm(dim),
-            # nn.Dropout(dropout_rate),
             nn.Linear(dim, dim),
-        )
+        ) #unused but our seeds require it
 
         self.paper_decoder = nn.Sequential(
             nn.Linear(latent_dim, dim),
             nn.LeakyReLU(1e-3),
             nn.LayerNorm(dim),
             nn.Dropout(dropout_rate),
-            # nn.Linear(dim, dim),
-            # nn.LeakyReLU(1e-3),
-            # nn.LayerNorm(dim),
-            # nn.Dropout(dropout_rate),
             nn.Linear(dim, dim),
-        )
-
+        ) #unused but our seeds require it
 
         self.mlp = nn.Sequential(
             nn.LayerNorm(latent_dim * 4),
@@ -117,7 +109,6 @@ class RegressionNorm(nn.Module):
             nn.LayerNorm(dim),
             nn.Dropout(dropout_rate),
             nn.Linear(dim, 1),
-            # nn.Softmax(dim=-1)
         )
 
         s_stats = np.load('rating_mean_std_s.npy').astype(np.float32)
@@ -147,20 +138,8 @@ class RegressionNorm(nn.Module):
         s_latent = self.scientist_encoder(s_input)
         p_latent = self.paper_encoder(p_emb)
 
-        s_latent = s_latent + torch.randn_like(s_latent) * self.epsilon
-        p_latent = p_latent + torch.randn_like(p_latent) * self.epsilon
-
-        # s_out = self.scientist_decoder(s_latent)
-        # p_out = self.paper_decoder(p_latent)
-
         s_latent_norm = F.normalize(s_latent, dim=-1)
         p_latent_norm = F.normalize(p_latent, dim=-1)
-
-        # s_latent_norm = s_latent
-        # p_latent_norm = p_latent
-
-        # s_out = self.scientist_decoder(s_latent_norm)
-        # p_out = self.paper_decoder(p_latent_norm)
 
         x = torch.cat([s_latent_norm, p_latent_norm, s_latent_norm * p_latent_norm, torch.abs(s_latent_norm - p_latent_norm)], dim=-1)
 
@@ -171,23 +150,13 @@ class RegressionNorm(nn.Module):
 
         return x, s_emb, p_emb, s_latent_norm, p_latent_norm, s_latent_norm, p_latent_norm
 
-# Compute mean and std for each scientist (sid)
-sid_stats = train_df.groupby("sid")["rating"].agg(["mean", "std"]).reindex(range(10_000), fill_value=np.nan)
-# Fill NaNs with global mean and std if any sid is missing
-global_mean = train_df["rating"].mean()
-global_std = train_df["rating"].std()
-sid_stats["mean"].fillna(global_mean, inplace=True)
-sid_stats["std"].fillna(global_std, inplace=True)
-# Save to file
-np.save('rating_mean_std_s.npy', sid_stats[["mean", "std"]].values.astype(np.float32))
-
-
 
 def get_dataset(df: pd.DataFrame) -> torch.utils.data.Dataset:
     """Conversion from pandas data frame to torch dataset."""
     
     sids = torch.from_numpy(df["sid"].to_numpy())
     pids = torch.from_numpy(df["pid"].to_numpy())
+    
     ratings = torch.from_numpy(df["rating"].to_numpy()).float()
     return torch.utils.data.TensorDataset(sids, pids, ratings)
 
@@ -205,27 +174,26 @@ optim = torch.optim.Adam(model.parameters(), lr=1e-3,weight_decay=1e-4)
 s_reconstruction_weight = 0.0
 p_reconstruction_weight = 0.0
 contrastive_weight = 0.1
+topological_weight = 1
 
 NUM_EPOCHS = 30
 scheduler = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(optim, T_0=10, T_mult=2)
 
-def info_nce_loss(s_latent, p_latent, ratings, threshold=4.0, temperature=0.07):
-    pos_mask = ratings >= threshold
-    s_pos = s_latent[pos_mask]
-    p_pos = p_latent[pos_mask]
-    
-    if len(s_pos) < 2:  # Not enough for contrastive batch
-        return torch.tensor(0.0, device=s_latent.device)
 
-    logits = torch.matmul(s_pos, p_pos.T) / temperature
-    labels = torch.arange(len(s_pos), device=logits.device)
-    return F.cross_entropy(logits, labels)
 
 best_val_rmse = float('inf')
 best_epoch = -1
 best_model_state = None
 
 val_rmse_per_epoch = []
+
+def multithreshold_infonce_loss(latents1, latents2, ratings, thresholds=[4, 5], temperatures=[0.07, 0.07]):
+    losses = []
+    for th, temp in zip(thresholds, temperatures):
+        # print(losses)
+        losses.append(info_nce_loss(latents1, latents2, ratings, threshold=th, temperature=temp))
+    return torch.stack(losses).mean()
+
 for epoch in range(NUM_EPOCHS):
     # Train model for an epoch
     total_loss = 0.0
@@ -234,6 +202,7 @@ for epoch in range(NUM_EPOCHS):
     avg_s_recon_loss = 0
     avg_p_recon_loss = 0
     avg_contrastive_loss = 0
+    avg_topological_loss = 0
     model.train()
     for sid, pid, ratings in tqdm(train_loader):
         # Move data to GPU
@@ -248,7 +217,9 @@ for epoch in range(NUM_EPOCHS):
         # p_recon_loss = F.mse_loss(p_emb, p_out)
 
         # Contrastive loss for latent vectors based on rating
-        contrastive_loss = info_nce_loss(s_latent, p_latent, ratings) + info_nce_loss(p_latent, s_latent, ratings)
+        # topolgical_loss = first_principle_component(s_latent, p_latent, ratings)
+        contrastive_loss = (multithreshold_infonce_loss(s_latent, p_latent, ratings) + 
+                            multithreshold_infonce_loss(p_latent, s_latent, ratings))
         # contrastive_loss = torch.tensor(0.0, device=sid.device)
         
         loss = rating_loss +  contrastive_weight * contrastive_loss
@@ -265,15 +236,16 @@ for epoch in range(NUM_EPOCHS):
         # avg_s_recon_loss += s_recon_loss.item() / len(train_dataset) * len(sid)
         # avg_p_recon_loss += p_recon_loss.item() / len(train_dataset) * len(sid)
         avg_contrastive_loss += contrastive_loss.item() / len(train_dataset) * len(sid)
+        # avg_topological_loss += topolgical_loss.item() / len(train_dataset) * len(sid)
 
     scheduler.step()
-    print(f"[Epoch {epoch+1}] rating={avg_rating_loss:.4f}, contrastive={avg_contrastive_loss:.4f}, s_recon={avg_s_recon_loss:.4f}, p_recon={avg_p_recon_loss:.4f}")
+    print(f"[Epoch {epoch+1}] rating={avg_rating_loss:.4f}, contrastive={avg_contrastive_loss:.4f}, topological={avg_topological_loss:.4f}, loss={total_loss / total_data:.4f}")
 
     # Evaluate model on validation data
     total_val_mse = 0.0
     total_val_data = 0
     model.eval()
-    for sid, pid, ratings in valid_loader:
+    for (sid, pid, ratings) in valid_loader:
         # Move data to GPU
         sid = sid.to(device)
         pid = pid.to(device)
