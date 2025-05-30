@@ -15,4 +15,4 @@ bash run.sh [SEED] [USE_NCE]
 * [USE_NCE]: Set to 1 to enable contrastive learning (NCE), 2 to enable CL with multiple threshold, or 0 to disable it
 
 ### Example
-`bash run.sh 1337 1`
+`bash run.sh 1337 2`
