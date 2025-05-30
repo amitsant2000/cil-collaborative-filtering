@@ -1,0 +1,65 @@
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: tqdm in /home/shgoel/.local/lib/python3.12/site-packages (4.67.1)
+Using: cuda
+[Epoch 1] rating=1.4580, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 1/30] Train loss=1.458, Valid RMSE=0.911
+[Epoch 2] rating=0.8283, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 2/30] Train loss=0.828, Valid RMSE=0.899
+[Epoch 3] rating=0.8057, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 3/30] Train loss=0.806, Valid RMSE=0.894
+[Epoch 4] rating=0.7881, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 4/30] Train loss=0.788, Valid RMSE=0.887
+[Epoch 5] rating=0.7680, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 5/30] Train loss=0.768, Valid RMSE=0.880
+[Epoch 6] rating=0.7478, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 6/30] Train loss=0.748, Valid RMSE=0.875
+[Epoch 7] rating=0.7266, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 7/30] Train loss=0.727, Valid RMSE=0.874
+[Epoch 8] rating=0.7024, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 8/30] Train loss=0.702, Valid RMSE=0.874
+[Epoch 9] rating=0.6764, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 9/30] Train loss=0.676, Valid RMSE=0.877
+[Epoch 10] rating=0.6568, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 10/30] Train loss=0.657, Valid RMSE=0.882
+[Epoch 11] rating=0.7467, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 11/30] Train loss=0.747, Valid RMSE=0.881
+[Epoch 12] rating=0.7336, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 12/30] Train loss=0.734, Valid RMSE=0.873
+[Epoch 13] rating=0.7240, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 13/30] Train loss=0.724, Valid RMSE=0.873
+[Epoch 14] rating=0.7131, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 14/30] Train loss=0.713, Valid RMSE=0.873
+[Epoch 15] rating=0.7024, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 15/30] Train loss=0.702, Valid RMSE=0.873
+[Epoch 16] rating=0.6875, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 16/30] Train loss=0.688, Valid RMSE=0.871
+[Epoch 17] rating=0.6728, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 17/30] Train loss=0.673, Valid RMSE=0.870
+[Epoch 18] rating=0.6562, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 18/30] Train loss=0.656, Valid RMSE=0.871
+[Epoch 19] rating=0.6368, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 19/30] Train loss=0.637, Valid RMSE=0.871
+[Epoch 20] rating=0.6151, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 20/30] Train loss=0.615, Valid RMSE=0.874
+[Epoch 21] rating=0.5913, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 21/30] Train loss=0.591, Valid RMSE=0.878
+[Epoch 22] rating=0.5663, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 22/30] Train loss=0.566, Valid RMSE=0.883
+[Epoch 23] rating=0.5387, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 23/30] Train loss=0.539, Valid RMSE=0.891
+[Epoch 24] rating=0.5124, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 24/30] Train loss=0.512, Valid RMSE=0.894
+[Epoch 25] rating=0.4852, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 25/30] Train loss=0.485, Valid RMSE=0.905
+[Epoch 26] rating=0.4607, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 26/30] Train loss=0.461, Valid RMSE=0.915
+[Epoch 27] rating=0.4393, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 27/30] Train loss=0.439, Valid RMSE=0.919
+[Epoch 28] rating=0.4225, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 28/30] Train loss=0.423, Valid RMSE=0.927
+[Epoch 29] rating=0.4104, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 29/30] Train loss=0.410, Valid RMSE=0.932
+[Epoch 30] rating=0.4046, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 30/30] Train loss=0.405, Valid RMSE=0.935
+Validation RMSE: 0.870
+saving to: contrast_epochs30_seed1_nce0_nowish.csv

@@ -1,0 +1,65 @@
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: tqdm in /home/shgoel/.local/lib/python3.12/site-packages (4.67.1)
+Using: cuda
+[Epoch 1] rating=1.0265, contrastive=15.9305
+[Epoch 1/30] Train loss=2.620, Valid RMSE=0.922
+[Epoch 2] rating=0.8288, contrastive=15.7286
+[Epoch 2/30] Train loss=2.402, Valid RMSE=0.894
+[Epoch 3] rating=0.7909, contrastive=15.6142
+[Epoch 3/30] Train loss=2.352, Valid RMSE=0.890
+[Epoch 4] rating=0.7675, contrastive=15.5229
+[Epoch 4/30] Train loss=2.320, Valid RMSE=0.877
+[Epoch 5] rating=0.7484, contrastive=15.4506
+[Epoch 5/30] Train loss=2.293, Valid RMSE=0.870
+[Epoch 6] rating=0.7300, contrastive=15.3897
+[Epoch 6/30] Train loss=2.269, Valid RMSE=0.864
+[Epoch 7] rating=0.7097, contrastive=15.3318
+[Epoch 7/30] Train loss=2.243, Valid RMSE=0.858
+[Epoch 8] rating=0.6878, contrastive=15.2722
+[Epoch 8/30] Train loss=2.215, Valid RMSE=0.857
+[Epoch 9] rating=0.6655, contrastive=15.2201
+[Epoch 9/30] Train loss=2.187, Valid RMSE=0.857
+[Epoch 10] rating=0.6486, contrastive=15.1860
+[Epoch 10/30] Train loss=2.167, Valid RMSE=0.858
+[Epoch 11] rating=0.7318, contrastive=15.3938
+[Epoch 11/30] Train loss=2.271, Valid RMSE=0.869
+[Epoch 12] rating=0.7215, contrastive=15.3769
+[Epoch 12/30] Train loss=2.259, Valid RMSE=0.863
+[Epoch 13] rating=0.7147, contrastive=15.3599
+[Epoch 13/30] Train loss=2.251, Valid RMSE=0.862
+[Epoch 14] rating=0.7055, contrastive=15.3407
+[Epoch 14/30] Train loss=2.240, Valid RMSE=0.861
+[Epoch 15] rating=0.6987, contrastive=15.3243
+[Epoch 15/30] Train loss=2.231, Valid RMSE=0.857
+[Epoch 16] rating=0.6909, contrastive=15.3059
+[Epoch 16/30] Train loss=2.221, Valid RMSE=0.858
+[Epoch 17] rating=0.6809, contrastive=15.2858
+[Epoch 17/30] Train loss=2.209, Valid RMSE=0.858
+[Epoch 18] rating=0.6698, contrastive=15.2643
+[Epoch 18/30] Train loss=2.196, Valid RMSE=0.856
+[Epoch 19] rating=0.6574, contrastive=15.2401
+[Epoch 19/30] Train loss=2.181, Valid RMSE=0.853
+[Epoch 20] rating=0.6445, contrastive=15.2129
+[Epoch 20/30] Train loss=2.166, Valid RMSE=0.852
+[Epoch 21] rating=0.6294, contrastive=15.1824
+[Epoch 21/30] Train loss=2.148, Valid RMSE=0.850
+[Epoch 22] rating=0.6116, contrastive=15.1513
+[Epoch 22/30] Train loss=2.127, Valid RMSE=0.854
+[Epoch 23] rating=0.5923, contrastive=15.1170
+[Epoch 23/30] Train loss=2.104, Valid RMSE=0.857
+[Epoch 24] rating=0.5717, contrastive=15.0817
+[Epoch 24/30] Train loss=2.080, Valid RMSE=0.859
+[Epoch 25] rating=0.5507, contrastive=15.0480
+[Epoch 25/30] Train loss=2.056, Valid RMSE=0.864
+[Epoch 26] rating=0.5294, contrastive=15.0200
+[Epoch 26/30] Train loss=2.031, Valid RMSE=0.866
+[Epoch 27] rating=0.5100, contrastive=14.9919
+[Epoch 27/30] Train loss=2.009, Valid RMSE=0.872
+[Epoch 28] rating=0.4932, contrastive=14.9708
+[Epoch 28/30] Train loss=1.990, Valid RMSE=0.877
+[Epoch 29] rating=0.4812, contrastive=14.9539
+[Epoch 29/30] Train loss=1.977, Valid RMSE=0.883
+[Epoch 30] rating=0.4746, contrastive=14.9459
+[Epoch 30/30] Train loss=1.969, Valid RMSE=0.884
+Validation RMSE: 0.850
+saving to: contrast_epochs30_seed42_nceTrue.csv

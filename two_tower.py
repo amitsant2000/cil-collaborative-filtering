@@ -25,32 +25,12 @@ wishlist_dict = get_wishlist_dict()
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using: {device}")
-class EmbeddingDotProductModel(nn.Module):
-    def __init__(self, num_scientists: int, num_papers: int, dim: int):
-        super().__init__()
-
-        # Assign to each scientist and paper an embedding
-        self.scientist_emb = nn.Embedding(num_scientists, dim)
-        self.paper_emb = nn.Embedding(num_papers, dim)
-        
-    def forward(self, sid: torch.Tensor, pid: torch.Tensor) -> torch.Tensor:
-        """
-        Inputs:
-            sid: [B,], int
-            pid: [B,], int
-        
-        Outputs: [B,], float
-        """
-
-        # Per-pair dot product
-        return torch.sum(self.scientist_emb(sid) * self.paper_emb(pid), dim=-1)
 
 class RegressionNorm(nn.Module):
-    def __init__(self, num_scientists: int, num_papers: int, initial_embed_dim: int, latent_dim: int, dropout_rate: float = 0.1, epsilon: float = 0):
+    def __init__(self, num_scientists: int, num_papers: int, initial_embed_dim: int, latent_dim: int, dropout_rate: float = 0.1):
         super().__init__()
 
         # Assign to each scientist and paper an embedding
-        self.epsilon = epsilon
         dim = initial_embed_dim
         self.scientist_emb = nn.Embedding(num_scientists, dim)
         self.paper_emb = nn.Embedding(num_papers, dim)
@@ -86,31 +66,6 @@ class RegressionNorm(nn.Module):
             nn.Linear(dim, latent_dim),
             # nn.LeakyReLU(1e-3)
         )
-
-        self.scientist_decoder = nn.Sequential(
-            nn.Linear(latent_dim, dim),
-            nn.LeakyReLU(1e-3),
-            nn.LayerNorm(dim),
-            nn.Dropout(dropout_rate),
-            # nn.Linear(dim, dim),
-            # nn.LeakyReLU(1e-3),
-            # nn.LayerNorm(dim),
-            # nn.Dropout(dropout_rate),
-            nn.Linear(dim, dim),
-        )
-
-        self.paper_decoder = nn.Sequential(
-            nn.Linear(latent_dim, dim),
-            nn.LeakyReLU(1e-3),
-            nn.LayerNorm(dim),
-            nn.Dropout(dropout_rate),
-            # nn.Linear(dim, dim),
-            # nn.LeakyReLU(1e-3),
-            # nn.LayerNorm(dim),
-            # nn.Dropout(dropout_rate),
-            nn.Linear(dim, dim),
-        )
-
 
         self.mlp = nn.Sequential(
             nn.LayerNorm(latent_dim * 4),
@@ -153,20 +108,12 @@ class RegressionNorm(nn.Module):
         s_latent = self.scientist_encoder(s_input)
         p_latent = self.paper_encoder(p_emb)
 
-        s_latent = s_latent + torch.randn_like(s_latent) * self.epsilon
-        p_latent = p_latent + torch.randn_like(p_latent) * self.epsilon
-
-        # s_out = self.scientist_decoder(s_latent)
-        # p_out = self.paper_decoder(p_latent)
+        # s_latent = s_latent + torch.randn_like(s_latent) * self.epsilon
+        # p_latent = p_latent + torch.randn_like(p_latent) * self.epsilon
 
         s_latent_norm = F.normalize(s_latent, dim=-1)
         p_latent_norm = F.normalize(p_latent, dim=-1)
 
-        # s_latent_norm = s_latent
-        # p_latent_norm = p_latent
-
-        # s_out = self.scientist_decoder(s_latent_norm)
-        # p_out = self.paper_decoder(p_latent_norm)
 
         x = torch.cat([s_latent_norm, p_latent_norm, s_latent_norm * p_latent_norm, torch.abs(s_latent_norm - p_latent_norm)], dim=-1)
 
@@ -202,14 +149,12 @@ valid_dataset = get_dataset(valid_df)
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=2**12, shuffle=True)
 valid_loader = torch.utils.data.DataLoader(valid_dataset, batch_size=2**12, shuffle=False)
 
-model = RegressionNorm(10_000, 1_000, 512, 150, dropout_rate=0.1, epsilon=0.0).to(device)
+model = RegressionNorm(10_000, 1_000, 512, 150, dropout_rate=0.1).to(device)
 nn.init.zeros_(model.scientist_bias.weight)
 nn.init.zeros_(model.paper_bias.weight)
 
 optim = torch.optim.Adam(model.parameters(), lr=1e-3,weight_decay=1e-4)
 
-s_reconstruction_weight = 0.0
-p_reconstruction_weight = 0.0
 contrastive_weight = 0.1
 
 NUM_EPOCHS = 30
@@ -237,8 +182,6 @@ for epoch in range(NUM_EPOCHS):
     total_loss = 0.0
     total_data = 0
     avg_rating_loss = 0
-    avg_s_recon_loss = 0
-    avg_p_recon_loss = 0
     avg_contrastive_loss = 0
     model.train()
     for sid, pid, ratings in tqdm(train_loader):
@@ -250,8 +193,7 @@ for epoch in range(NUM_EPOCHS):
         # Make prediction and compute loss
         pred, s_emb, p_emb, s_out, p_out, s_latent, p_latent = model(sid, pid)
         rating_loss = F.mse_loss(pred.clamp(1, 5), ratings)
-        # s_recon_loss = F.mse_loss(s_emb, s_out)
-        # p_recon_loss = F.mse_loss(p_emb, p_out)
+        
 
         # Contrastive loss for latent vectors based on rating
         if(args.nce):
@@ -271,12 +213,10 @@ for epoch in range(NUM_EPOCHS):
         total_data += len(sid)
         total_loss += len(sid) * loss.item()
         avg_rating_loss += rating_loss.item() / len(train_dataset) * len(sid)
-        # avg_s_recon_loss += s_recon_loss.item() / len(train_dataset) * len(sid)
-        # avg_p_recon_loss += p_recon_loss.item() / len(train_dataset) * len(sid)
         avg_contrastive_loss += contrastive_loss.item() / len(train_dataset) * len(sid)
 
     scheduler.step()
-    print(f"[Epoch {epoch+1}] rating={avg_rating_loss:.4f}, contrastive={avg_contrastive_loss:.4f}, s_recon={avg_s_recon_loss:.4f}, p_recon={avg_p_recon_loss:.4f}")
+    print(f"[Epoch {epoch+1}] rating={avg_rating_loss:.4f}, contrastive={avg_contrastive_loss:.4f}")
 
     # Evaluate model on validation data
     total_val_mse = 0.0
@@ -333,6 +273,5 @@ with torch.no_grad():
     # make_submission(pred_fn, f"emb4_epoch{NUM_EPOCHS}.csv")
     make_submission(pred_fn, f"contrast_epochs{NUM_EPOCHS}_seed{SEED}_nce{args.nce}.csv")
 
-## Outlook
 
 

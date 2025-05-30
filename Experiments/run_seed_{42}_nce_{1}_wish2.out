@@ -1,0 +1,11 @@
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: tqdm in /home/shgoel/.local/lib/python3.12/site-packages (4.67.1)
+Using: cuda
+[Epoch 1] rating=nan, contrastive=nan, s_recon=0.0000, p_recon=0.0000
+[Epoch 1/30] Train loss=nan, Valid RMSE=nan
+[Epoch 2] rating=nan, contrastive=nan, s_recon=0.0000, p_recon=0.0000
+[Epoch 2/30] Train loss=nan, Valid RMSE=nan
+[Epoch 3] rating=nan, contrastive=nan, s_recon=0.0000, p_recon=0.0000
+[Epoch 3/30] Train loss=nan, Valid RMSE=nan
+[Epoch 4] rating=nan, contrastive=nan, s_recon=0.0000, p_recon=0.0000
+[Epoch 4/30] Train loss=nan, Valid RMSE=nan

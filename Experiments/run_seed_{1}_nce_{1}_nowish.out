@@ -1,0 +1,65 @@
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: tqdm in /home/shgoel/.local/lib/python3.12/site-packages (4.67.1)
+Using: cuda
+[Epoch 1] rating=2.4593, contrastive=15.9700, s_recon=0.0000, p_recon=0.0000
+[Epoch 1/30] Train loss=4.056, Valid RMSE=1.557
+[Epoch 2] rating=2.4244, contrastive=15.7685, s_recon=0.0000, p_recon=0.0000
+[Epoch 2/30] Train loss=4.001, Valid RMSE=1.557
+[Epoch 3] rating=2.4244, contrastive=15.6871, s_recon=0.0000, p_recon=0.0000
+[Epoch 3/30] Train loss=3.993, Valid RMSE=1.557
+[Epoch 4] rating=2.4244, contrastive=15.5044, s_recon=0.0000, p_recon=0.0000
+[Epoch 4/30] Train loss=3.975, Valid RMSE=1.557
+[Epoch 5] rating=2.4244, contrastive=15.3758, s_recon=0.0000, p_recon=0.0000
+[Epoch 5/30] Train loss=3.962, Valid RMSE=1.557
+[Epoch 6] rating=2.4244, contrastive=15.2825, s_recon=0.0000, p_recon=0.0000
+[Epoch 6/30] Train loss=3.953, Valid RMSE=1.557
+[Epoch 7] rating=2.4244, contrastive=15.1896, s_recon=0.0000, p_recon=0.0000
+[Epoch 7/30] Train loss=3.943, Valid RMSE=1.557
+[Epoch 8] rating=2.4244, contrastive=15.0937, s_recon=0.0000, p_recon=0.0000
+[Epoch 8/30] Train loss=3.934, Valid RMSE=1.557
+[Epoch 9] rating=2.4244, contrastive=14.9943, s_recon=0.0000, p_recon=0.0000
+[Epoch 9/30] Train loss=3.924, Valid RMSE=1.557
+[Epoch 10] rating=2.4244, contrastive=14.9147, s_recon=0.0000, p_recon=0.0000
+[Epoch 10/30] Train loss=3.916, Valid RMSE=1.557
+[Epoch 11] rating=2.4244, contrastive=15.2883, s_recon=0.0000, p_recon=0.0000
+[Epoch 11/30] Train loss=3.953, Valid RMSE=1.557
+[Epoch 12] rating=2.1277, contrastive=15.2542, s_recon=0.0000, p_recon=0.0000
+[Epoch 12/30] Train loss=3.653, Valid RMSE=0.949
+[Epoch 13] rating=0.8244, contrastive=15.3661, s_recon=0.0000, p_recon=0.0000
+[Epoch 13/30] Train loss=2.361, Valid RMSE=0.879
+[Epoch 14] rating=0.7629, contrastive=15.3763, s_recon=0.0000, p_recon=0.0000
+[Epoch 14/30] Train loss=2.301, Valid RMSE=0.868
+[Epoch 15] rating=0.7384, contrastive=15.3381, s_recon=0.0000, p_recon=0.0000
+[Epoch 15/30] Train loss=2.272, Valid RMSE=0.863
+[Epoch 16] rating=0.7187, contrastive=15.3052, s_recon=0.0000, p_recon=0.0000
+[Epoch 16/30] Train loss=2.249, Valid RMSE=0.856
+[Epoch 17] rating=0.7023, contrastive=15.2739, s_recon=0.0000, p_recon=0.0000
+[Epoch 17/30] Train loss=2.230, Valid RMSE=0.853
+[Epoch 18] rating=0.6870, contrastive=15.2416, s_recon=0.0000, p_recon=0.0000
+[Epoch 18/30] Train loss=2.211, Valid RMSE=0.849
+[Epoch 19] rating=0.6712, contrastive=15.2124, s_recon=0.0000, p_recon=0.0000
+[Epoch 19/30] Train loss=2.192, Valid RMSE=0.847
+[Epoch 20] rating=0.6555, contrastive=15.1811, s_recon=0.0000, p_recon=0.0000
+[Epoch 20/30] Train loss=2.174, Valid RMSE=0.846
+[Epoch 21] rating=0.6393, contrastive=15.1488, s_recon=0.0000, p_recon=0.0000
+[Epoch 21/30] Train loss=2.154, Valid RMSE=0.847
+[Epoch 22] rating=0.6225, contrastive=15.1146, s_recon=0.0000, p_recon=0.0000
+[Epoch 22/30] Train loss=2.134, Valid RMSE=0.845
+[Epoch 23] rating=0.6033, contrastive=15.0798, s_recon=0.0000, p_recon=0.0000
+[Epoch 23/30] Train loss=2.111, Valid RMSE=0.847
+[Epoch 24] rating=0.5840, contrastive=15.0453, s_recon=0.0000, p_recon=0.0000
+[Epoch 24/30] Train loss=2.089, Valid RMSE=0.851
+[Epoch 25] rating=0.5638, contrastive=15.0110, s_recon=0.0000, p_recon=0.0000
+[Epoch 25/30] Train loss=2.065, Valid RMSE=0.850
+[Epoch 26] rating=0.5439, contrastive=14.9806, s_recon=0.0000, p_recon=0.0000
+[Epoch 26/30] Train loss=2.042, Valid RMSE=0.857
+[Epoch 27] rating=0.5260, contrastive=14.9545, s_recon=0.0000, p_recon=0.0000
+[Epoch 27/30] Train loss=2.021, Valid RMSE=0.862
+[Epoch 28] rating=0.5113, contrastive=14.9332, s_recon=0.0000, p_recon=0.0000
+[Epoch 28/30] Train loss=2.005, Valid RMSE=0.865
+[Epoch 29] rating=0.5009, contrastive=14.9190, s_recon=0.0000, p_recon=0.0000
+[Epoch 29/30] Train loss=1.993, Valid RMSE=0.869
+[Epoch 30] rating=0.4949, contrastive=14.9099, s_recon=0.0000, p_recon=0.0000
+[Epoch 30/30] Train loss=1.986, Valid RMSE=0.871
+Validation RMSE: 0.845
+saving to: contrast_epochs30_seed1_nce1_nowish.csv

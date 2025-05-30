@@ -1,0 +1,65 @@
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: tqdm in /home/shgoel/.local/lib/python3.12/site-packages (4.67.1)
+Using: cuda
+[Epoch 1] rating=0.9351, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 1/30] Train loss=0.935, Valid RMSE=0.902
+[Epoch 2] rating=0.8118, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 2/30] Train loss=0.812, Valid RMSE=0.894
+[Epoch 3] rating=0.7859, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 3/30] Train loss=0.786, Valid RMSE=0.882
+[Epoch 4] rating=0.7649, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 4/30] Train loss=0.765, Valid RMSE=0.877
+[Epoch 5] rating=0.7466, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 5/30] Train loss=0.747, Valid RMSE=0.874
+[Epoch 6] rating=0.7261, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 6/30] Train loss=0.726, Valid RMSE=0.870
+[Epoch 7] rating=0.7013, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 7/30] Train loss=0.701, Valid RMSE=0.869
+[Epoch 8] rating=0.6703, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 8/30] Train loss=0.670, Valid RMSE=0.872
+[Epoch 9] rating=0.6369, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 9/30] Train loss=0.637, Valid RMSE=0.879
+[Epoch 10] rating=0.6106, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 10/30] Train loss=0.611, Valid RMSE=0.884
+[Epoch 11] rating=0.7286, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 11/30] Train loss=0.729, Valid RMSE=0.873
+[Epoch 12] rating=0.7218, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 12/30] Train loss=0.722, Valid RMSE=0.872
+[Epoch 13] rating=0.7155, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 13/30] Train loss=0.716, Valid RMSE=0.871
+[Epoch 14] rating=0.7082, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 14/30] Train loss=0.708, Valid RMSE=0.870
+[Epoch 15] rating=0.7007, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 15/30] Train loss=0.701, Valid RMSE=0.868
+[Epoch 16] rating=0.6909, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 16/30] Train loss=0.691, Valid RMSE=0.868
+[Epoch 17] rating=0.6809, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 17/30] Train loss=0.681, Valid RMSE=0.866
+[Epoch 18] rating=0.6676, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 18/30] Train loss=0.668, Valid RMSE=0.864
+[Epoch 19] rating=0.6527, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 19/30] Train loss=0.653, Valid RMSE=0.869
+[Epoch 20] rating=0.6354, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 20/30] Train loss=0.635, Valid RMSE=0.866
+[Epoch 21] rating=0.6146, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 21/30] Train loss=0.615, Valid RMSE=0.870
+[Epoch 22] rating=0.5922, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 22/30] Train loss=0.592, Valid RMSE=0.875
+[Epoch 23] rating=0.5673, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 23/30] Train loss=0.567, Valid RMSE=0.878
+[Epoch 24] rating=0.5404, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 24/30] Train loss=0.540, Valid RMSE=0.880
+[Epoch 25] rating=0.5133, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 25/30] Train loss=0.513, Valid RMSE=0.887
+[Epoch 26] rating=0.4874, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 26/30] Train loss=0.487, Valid RMSE=0.905
+[Epoch 27] rating=0.4645, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 27/30] Train loss=0.465, Valid RMSE=0.904
+[Epoch 28] rating=0.4462, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 28/30] Train loss=0.446, Valid RMSE=0.916
+[Epoch 29] rating=0.4328, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 29/30] Train loss=0.433, Valid RMSE=0.918
+[Epoch 30] rating=0.4252, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 30/30] Train loss=0.425, Valid RMSE=0.921
+Validation RMSE: 0.864
+saving to: contrast_epochs30_seed999_nce0.csv
