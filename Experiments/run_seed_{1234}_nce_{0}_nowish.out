@@ -1,0 +1,65 @@
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: tqdm in /home/shgoel/.local/lib/python3.12/site-packages (4.67.1)
+Using: cuda
+[Epoch 1] rating=2.4523, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 1/30] Train loss=2.452, Valid RMSE=1.557
+[Epoch 2] rating=2.4242, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 2/30] Train loss=2.424, Valid RMSE=1.557
+[Epoch 3] rating=2.4242, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 3/30] Train loss=2.424, Valid RMSE=1.557
+[Epoch 4] rating=2.4242, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 4/30] Train loss=2.424, Valid RMSE=1.557
+[Epoch 5] rating=2.4242, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 5/30] Train loss=2.424, Valid RMSE=1.557
+[Epoch 6] rating=2.4242, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 6/30] Train loss=2.424, Valid RMSE=1.557
+[Epoch 7] rating=2.4242, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 7/30] Train loss=2.424, Valid RMSE=1.557
+[Epoch 8] rating=2.4242, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 8/30] Train loss=2.424, Valid RMSE=1.557
+[Epoch 9] rating=2.4242, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 9/30] Train loss=2.424, Valid RMSE=1.557
+[Epoch 10] rating=2.4242, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 10/30] Train loss=2.424, Valid RMSE=1.557
+[Epoch 11] rating=2.4242, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 11/30] Train loss=2.424, Valid RMSE=1.557
+[Epoch 12] rating=2.4242, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 12/30] Train loss=2.424, Valid RMSE=1.557
+[Epoch 13] rating=1.1246, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 13/30] Train loss=1.125, Valid RMSE=0.932
+[Epoch 14] rating=0.8536, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 14/30] Train loss=0.854, Valid RMSE=0.916
+[Epoch 15] rating=0.8318, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 15/30] Train loss=0.832, Valid RMSE=0.910
+[Epoch 16] rating=0.8227, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 16/30] Train loss=0.823, Valid RMSE=0.908
+[Epoch 17] rating=0.8171, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 17/30] Train loss=0.817, Valid RMSE=0.906
+[Epoch 18] rating=0.8135, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 18/30] Train loss=0.813, Valid RMSE=0.904
+[Epoch 19] rating=0.8108, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 19/30] Train loss=0.811, Valid RMSE=0.904
+[Epoch 20] rating=0.8087, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 20/30] Train loss=0.809, Valid RMSE=0.903
+[Epoch 21] rating=0.8075, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 21/30] Train loss=0.808, Valid RMSE=0.903
+[Epoch 22] rating=0.8054, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 22/30] Train loss=0.805, Valid RMSE=0.899
+[Epoch 23] rating=0.8008, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 23/30] Train loss=0.801, Valid RMSE=0.898
+[Epoch 24] rating=0.7972, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 24/30] Train loss=0.797, Valid RMSE=0.896
+[Epoch 25] rating=0.7910, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 25/30] Train loss=0.791, Valid RMSE=0.893
+[Epoch 26] rating=0.7811, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 26/30] Train loss=0.781, Valid RMSE=0.890
+[Epoch 27] rating=0.7705, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 27/30] Train loss=0.771, Valid RMSE=0.885
+[Epoch 28] rating=0.7605, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 28/30] Train loss=0.761, Valid RMSE=0.883
+[Epoch 29] rating=0.7529, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 29/30] Train loss=0.753, Valid RMSE=0.881
+[Epoch 30] rating=0.7482, contrastive=0.0000, s_recon=0.0000, p_recon=0.0000
+[Epoch 30/30] Train loss=0.748, Valid RMSE=0.881
+Validation RMSE: 0.881
+saving to: contrast_epochs30_seed1234_nce0_nowish.csv
