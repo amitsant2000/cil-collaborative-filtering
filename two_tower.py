@@ -8,8 +8,8 @@ from utils.data_utils import read_data_df, read_data_matrix, impute_values, get_
 import argparse
 
 parser = argparse.ArgumentParser(description="two tower")
-parser.add_argument('--seed', type=int, help='seed')
-parser.add_argument('--nce', type=bool, help='use nce or not')
+parser.add_argument('--seed', type=int, default=42, help='seed')
+parser.add_argument('--nce', type=int, default=1, help='use nce or not')
 
 args = parser.parse_args()
 
@@ -196,7 +196,7 @@ for epoch in range(NUM_EPOCHS):
         
 
         # Contrastive loss for latent vectors based on rating
-        if(args.nce):
+        if(args.nce != 0):
             contrastive_loss = info_nce_loss(s_latent, p_latent, ratings) + info_nce_loss(p_latent, s_latent, ratings)
         else:
             contrastive_loss = 0
