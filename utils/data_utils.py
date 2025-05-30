@@ -9,7 +9,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import root_mean_squared_error
+from sklearn.metrics import mean_squared_error
 import os
 from tqdm import tqdm, trange
 
@@ -64,7 +64,7 @@ def evaluate(valid_df: pd.DataFrame, pred_fn: Callable[[np.ndarray, np.ndarray],
     """
     
     preds = pred_fn(valid_df["sid"].values, valid_df["pid"].values)
-    return root_mean_squared_error(valid_df["rating"].values, preds)
+    return mean_squared_error(valid_df["rating"].values, preds) ** 0.5
 
 
 def make_submission(pred_fn: Callable[[np.ndarray, np.ndarray], np.ndarray], filename: os.PathLike):
